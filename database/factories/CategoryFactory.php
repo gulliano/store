@@ -15,8 +15,12 @@ class CategoryFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
-    {
+    {   
+        $name = fake()->words(7, true) ;
         return [
+            'name' =>$name ,
+            'image' => fake()->imageUrl(640,480 , $name , true) ,
+
             //
         ];
     }
