@@ -15,7 +15,10 @@
 <body>
     @include('layouts.store.header')
 
-        @yield('content')
+        <div class="flex flex-1 flex-col">
+            @yield('content')
+        </div>
+       
 
     @include('layouts.store.footer')
     

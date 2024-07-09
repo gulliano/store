@@ -2,11 +2,11 @@
 
 @section('content')
    
-    <ul class="bg-red-300">
+    <ul class=" pt-10 px-3  flex flex-1 gap-4">
 
         @foreach ($categories as $category )
-                <li>
-                    <a href="">{{ $category->name }}</a>
+                <li class="bg-slate-300 p-1 rounded-full">
+                    <a href="{{route('product.category' ,$category->id )}}">{{ $category->name }}</a>
                 </li>
         @endforeach
         
@@ -14,7 +14,8 @@
 
     <x-product-card :products="$products"/>
 
-
+    <!-- lien de pagination  -->
+    {{ $products->links() }}
 
     
 

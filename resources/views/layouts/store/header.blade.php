@@ -1,14 +1,14 @@
 <header>
 
-    <ul>
-        <li>
+    <ul class="flex flex-row ">
+        <li class="px-10">
             <a href="{{route('product')}}">Accueil</a>
         </li>
-        <li>
+        <li class="px-10">
             <a href="{{route('dashboard')}}">Mon compte</a>
 
         </li>
-        <li>Panier</li>
+        <li class="px-10">Panier</li>
     </ul>
 
 
