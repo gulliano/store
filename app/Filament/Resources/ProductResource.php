@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Product;
+use App\Models\Category;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
@@ -24,7 +25,16 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                //
+                
+                Forms\Components\TextInput::make('name')->label('Nom')->required(),
+                Forms\Components\TextInput::make('price')->label('Prix')->required(),
+                Forms\Components\Select::make('category')
+                                            ->label('Categorie')  
+                                            ->relationship(name: 'category', titleAttribute: 'name')
+                                            ->required(),
+                Forms\Components\FileUpload::make('images')->multiple(),
+                
+
             ]);
     }
 
@@ -33,10 +43,14 @@ class ProductResource extends Resource
         return $table
             ->columns([
                
+                Tables\Columns\ImageColumn::make('images') , 
+                                            
                 Tables\Columns\TextColumn::make("name")
+                ->description(fn (Product $record): string => substr($record->description , 0, 20 ) )
                                             ->label('Nom')
                                             ->searchable()
                                             ->sortable(),
+                                    
                 //
             ])
             ->filters([

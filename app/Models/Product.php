@@ -16,6 +16,10 @@ class Product extends Model
                             'price',
                             'images'];
 
+    protected $casts = [
+                            'images' => 'array',
+                            ];
+
 
     /**
      * Get the category that owns the Product
