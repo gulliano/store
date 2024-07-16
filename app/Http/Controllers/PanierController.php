@@ -30,7 +30,7 @@ class PanierController extends Controller
         if(isset($existProduct)){
 
             $existProduct->quantite = $existProduct->quantite + 1 ; 
-            
+
             $existProduct->save() ;
 
 
@@ -45,7 +45,7 @@ class PanierController extends Controller
      
 
 
-         return "ajouter" ;
+     return  redirect()->route('panier.lister') ;
     }
 
     public function commander() {
