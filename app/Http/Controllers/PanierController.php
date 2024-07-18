@@ -11,8 +11,11 @@ class PanierController extends Controller
     //
     public function index() {
        
+        $paniers = Panier::where('user_id', auth()->user()->id)->get() ;
+
+     
         
-        return 'liste' ;
+        return view('panier.liste' , compact('paniers'));
     }
     public function ajouter(Product $product) {
 
@@ -47,6 +50,32 @@ class PanierController extends Controller
 
      return  redirect()->route('panier.lister') ;
     }
+
+
+    public function remove(Panier $panier) {
+
+        $panier->delete() ; 
+        
+        return back() ;
+    }
+
+   public function moins(Panier $panier) {
+
+        if($panier->quantite == 1){
+
+            $panier->delete();
+
+        }else{
+
+            $panier->quantite = $panier->quantite - 1 ;
+            $panier->save() ;
+
+        }
+
+    
+        return back() ;
+    }
+    
 
     public function commander() {
 

@@ -35,9 +35,9 @@ class Panier extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function commande(): BelongsTo
+    public function product(): BelongsTo
     {
-        return $this->belongsTo(Commande::class);
+        return $this->belongsTo(Product::class);
     }
 
 

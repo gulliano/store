@@ -26,6 +26,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/panier', [PanierController::class, 'index'])->name('panier.lister');
     Route::get('/panier/add/{product}', [PanierController::class, 'ajouter'])->name('panier.ajouter');
+    Route::get('/panier/moins/{panier}', [PanierController::class, 'moins'])->name('panier.moins');
+    Route::get('/panier/remove/{panier}', [PanierController::class, 'remove'])->name('panier.remove');
 });
 
 require __DIR__.'/auth.php';
