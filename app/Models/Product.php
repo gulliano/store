@@ -31,5 +31,18 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * Get all of the comments for the Product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function favorites():HasMany
+    {
+        return $this->hasMany(Favorite::class);
+    }
     
+    public function isFavorite()
+    {
+        return $this->hasMany(Favorite::class);
+    }
 }
