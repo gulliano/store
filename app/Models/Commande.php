@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\CommandeItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,8 +28,8 @@ class Commande extends Model
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
-   public function paniers(): HasMany
+   public function commandeItems(): HasMany
    {
-       return $this->hasMany(Panier::class);
+       return $this->hasMany(CommandeItem::class);
    }
 }

@@ -8,7 +8,8 @@
             <a href="{{route('dashboard')}}">Mon compte</a>
 
         </li>
-        <li class="px-10">Panier</li>
+        <li class="px-10">
+            <a href="{{route('panier.lister')}}">Panier</a></li>
     </ul>
 
 
