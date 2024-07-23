@@ -47,8 +47,8 @@ class CommandeController extends Controller
         $total = 0 ;
         foreach($paniers as $panier){
 
-            $commandeId = $commande->id  ;       // identifiant de la commande
-            $productId  = $panier->product_id ;  // identifiant du produit
+            $commandeId = $commande->id  ;          // identifiant de la commande
+            $productId  = $panier->product_id ;     // identifiant du produit
             $quantite   = $panier->quantite ;       // nombre de  produit
             $price      = $panier->product->price  ; // prix du produit
             $total      +=  $price * $quantite ; // ->  $total  = $total + $price * $quantite
@@ -68,33 +68,35 @@ class CommandeController extends Controller
         $commande->save() ; 
 
         // je vide le panier 
-        Panier::where( 'user_id' , auth()->user()->id)->delete() ;
+     //   Panier::where( 'user_id' , auth()->user()->id)->delete() ;
         
-
+        $urlPaiement = $this->stripeCheckout($total, $commande->id) ; 
        
-       return redirect($this->stripeCheckout($total, $commande->id)) ; 
+       return redirect($urlPaiement) ; 
 
 
     }
 
 
-    public function stripeCheckout($total, $numero)
+    public function stripeCheckout($total, $commandeId)
     {
         // parametrage de l'api 
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         
         // url de confirmation de paiement
-       $redirectUrl = route('commande.lister') . '?session_id={CHECKOUT_SESSION_ID}';
+       $redirectUrl = route('commande.success') . '?session_id={CHECKOUT_SESSION_ID}';
         
        //création de la session de paiment stripe
         $response =  $stripe->checkout->sessions->create([
             'success_url' => $redirectUrl,
             'payment_method_types' => ['link', 'card'],
+            'customer_email' => auth()->user()->email ,
+            'client_reference_id' =>  $commandeId ,
             'line_items' => [
                 [
                     'price_data'  => [
                         'product_data' => [
-                            'name' => $numero,
+                            'name' => $commandeId,
                         ],
                         'unit_amount'  => 100 * $total,
                         'currency'     => 'USD',
@@ -108,6 +110,21 @@ class CommandeController extends Controller
 
         // génération de l'url de paiement
         return $response['url'];
+    }
+
+
+
+    public function success (Request $request){
+
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+
+        $session = $stripe->checkout->sessions->retrieve($request->session_id);
+        //dd(info($session)) ;
+       
+        // info($session ->payment_intent);
+        dd($session) ;
+
+        return 'success' ;
     }
 
 
