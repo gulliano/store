@@ -46,4 +46,7 @@ Route::middleware('auth')->group(function () {
 
 });
 
+Route::post('/commande/webhook', [CommandeController::class, 'webhook'])->name('commande.webhook');
+  
+
 require __DIR__.'/auth.php';

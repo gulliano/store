@@ -122,9 +122,58 @@ class CommandeController extends Controller
         //dd(info($session)) ;
        
         // info($session ->payment_intent);
-        dd($session) ;
+ 
+/*
+        if($session->payment_status==='paid ' && $session->status==='complete') {
+            $commande =Commande::find($session->client_reference_id);
 
-        return 'success' ;
+            $commande->update(['numero' => $session->payment_intent]);
+            $commande->save();
+
+        
+        }*/
+
+        return  redirect(route('commande.lister')) ;
+    }
+
+    public function webhook(Request $request) {
+          // dd($request) ;
+         //  eee
+/*
+        if($request->type === "payment_intent.succeeded"){
+
+            $commande =Commande::find(38);
+
+            $commande->update(['numero' => $request->data["object"]["client_reference_id"]]);
+            $commande->save();
+
+        }*/
+        
+
+         /*
+         if($request->object == "checkout.session" &&
+            $request->payment_status==='paid ' && 
+            $request->status==='complete') {
+
+            $commande =Commande::find(38);
+
+            $commande->update(['numero' => $request->payment_intent]);
+            $commande->save();
+
+            return 'success';
+        }*/
+
+        if($request->type == "checkout.session.completed"){
+            $commande =Commande::find($request->data["object"]["client_reference_id"]);
+
+            $commande->update(['numero' => $request->payment_intent]);
+            $commande->save();
+
+
+        }
+     return response()->json(['type'=> $request->type, 
+                                'idcommande' =>
+                            ], 200);  ; 
     }
 
 
